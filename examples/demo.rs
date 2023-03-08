@@ -1,5 +1,5 @@
 extern crate ash;
-extern crate vk_mem;
+extern crate bort_vma;
 
 /*
 use ash::extensions::DebugReport;

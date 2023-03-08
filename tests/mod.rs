@@ -1,9 +1,9 @@
 extern crate ash;
-extern crate vk_mem;
+extern crate bort_vma;
 
 use ash::{extensions::ext::DebugUtils, vk};
+use bort_vma::Alloc;
 use std::{os::raw::c_void, sync::Arc};
-use vk_mem::Alloc;
 
 fn extension_names() -> Vec<*const i8> {
     vec![DebugUtils::name().as_ptr()]
@@ -137,10 +137,10 @@ impl TestHarness {
         }
     }
 
-    pub fn create_allocator(&self) -> vk_mem::Allocator {
+    pub fn create_allocator(&self) -> bort_vma::Allocator {
         let create_info =
-            vk_mem::AllocatorCreateInfo::new(&self.instance, &self.device, self.physical_device);
-        vk_mem::Allocator::new(create_info).unwrap()
+            bort_vma::AllocatorCreateInfo::new(&self.instance, &self.device, self.physical_device);
+        bort_vma::Allocator::new(create_info).unwrap()
     }
 }
 
@@ -159,8 +159,8 @@ fn create_allocator() {
 fn create_gpu_buffer() {
     let harness = TestHarness::new();
     let allocator = harness.create_allocator();
-    let allocation_info = vk_mem::AllocationCreateInfo {
-        usage: vk_mem::MemoryUsage::Auto,
+    let allocation_info = bort_vma::AllocationCreateInfo {
+        usage: bort_vma::MemoryUsage::Auto,
         ..Default::default()
     };
 
@@ -187,11 +187,11 @@ fn create_gpu_buffer() {
 fn create_cpu_buffer_preferred() {
     let harness = TestHarness::new();
     let allocator = harness.create_allocator();
-    let allocation_info = vk_mem::AllocationCreateInfo {
+    let allocation_info = bort_vma::AllocationCreateInfo {
         required_flags: ash::vk::MemoryPropertyFlags::HOST_VISIBLE,
         preferred_flags: ash::vk::MemoryPropertyFlags::HOST_COHERENT
             | ash::vk::MemoryPropertyFlags::HOST_CACHED,
-        flags: vk_mem::AllocationCreateFlags::MAPPED,
+        flags: bort_vma::AllocationCreateFlags::MAPPED,
         ..Default::default()
     };
     unsafe {
@@ -224,11 +224,11 @@ fn create_gpu_buffer_pool() {
         .usage(ash::vk::BufferUsageFlags::UNIFORM_BUFFER | ash::vk::BufferUsageFlags::TRANSFER_DST)
         .build();
 
-    let allocation_info = vk_mem::AllocationCreateInfo {
+    let allocation_info = bort_vma::AllocationCreateInfo {
         required_flags: ash::vk::MemoryPropertyFlags::HOST_VISIBLE,
         preferred_flags: ash::vk::MemoryPropertyFlags::HOST_COHERENT
             | ash::vk::MemoryPropertyFlags::HOST_CACHED,
-        flags: vk_mem::AllocationCreateFlags::MAPPED,
+        flags: bort_vma::AllocationCreateFlags::MAPPED,
 
         ..Default::default()
     };
@@ -238,7 +238,7 @@ fn create_gpu_buffer_pool() {
             .unwrap();
 
         // Create a pool that can have at most 2 blocks, 128 MiB each.
-        let pool_info = vk_mem::PoolCreateInfo::new()
+        let pool_info = bort_vma::PoolCreateInfo::new()
             .memory_type_index(memory_type_index)
             .block_size(128 * 1024 * 1024)
             .max_block_count(2);
@@ -256,8 +256,8 @@ fn create_gpu_buffer_pool() {
 fn test_gpu_stats() {
     let harness = TestHarness::new();
     let allocator = harness.create_allocator();
-    let allocation_info = vk_mem::AllocationCreateInfo {
-        usage: vk_mem::MemoryUsage::Auto,
+    let allocation_info = bort_vma::AllocationCreateInfo {
+        usage: bort_vma::MemoryUsage::Auto,
         ..Default::default()
     };
 

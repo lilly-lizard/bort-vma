@@ -75,14 +75,6 @@ Additional features:
   - Enable initialization of all allocated memory with a bit pattern to detect usage of uninitialized or freed memory.
   - Enable validation of a magic number before and after every allocation to detect out-of-bounds memory corruption.
 
-## Planned Features
-
-- Extensive unit tests and examples.
-  - Some unit tests already, but not full coverage
-  - Example isn't written - likely will port the VMA sample to `ash` and `vk_mem`
-- Record and replay allocations, for in-depth analysis of memory usage, resource transitions, etc
-  - Check for correctness, measure performance, and gather statistics.
-
 ## Example
 
 Basic usage of this crate is very simple; advanced features are optional.
@@ -187,10 +179,4 @@ Unless you explicitly state otherwise, any contribution intentionally submitted
 for inclusion in this crate by you, as defined in the Apache-2.0 license, shall
 be dual licensed as above, without any additional terms or conditions.
 
-Contributions are always welcome; please look at the [issue tracker](https://github.com/gwihlidal/vk-mem-rs/issues) to see what known improvements are documented.
-
-## Code of Conduct
-
-Contribution to the vk-mem crate is organized under the terms of the
-Contributor Covenant, the maintainer of vk-mem, @gwihlidal, promises to
-intervene to uphold that code of conduct.
+Contributions are always welcome; please look at the [issue tracker](https://github.com/lilly-lizard/bort-vma/issues) to see what known improvements are documented.
