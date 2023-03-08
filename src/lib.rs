@@ -1,5 +1,3 @@
-//! Easy to use, high performance memory manager for Vulkan.
-
 mod alloc;
 mod allocator;
 mod definitions;

@@ -2,7 +2,7 @@ extern crate ash;
 extern crate bort_vma;
 
 use ash::{extensions::ext::DebugUtils, vk};
-use bort_vma::Alloc;
+use bort_vma::{Alloc, AllocatorPool};
 use std::{os::raw::c_void, sync::Arc};
 
 fn extension_names() -> Vec<*const i8> {
@@ -243,7 +243,7 @@ fn create_gpu_buffer_pool() {
             .block_size(128 * 1024 * 1024)
             .max_block_count(2);
 
-        let pool = allocator.create_pool(&pool_info).unwrap();
+        let pool = AllocatorPool::new(allocator.clone(), &pool_info).unwrap();
 
         let (buffer, mut allocation) = pool.create_buffer(&buffer_info, &allocation_info).unwrap();
         let allocation_info = allocator.get_allocation_info(&allocation);

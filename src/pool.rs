@@ -16,28 +16,19 @@ pub struct AllocatorPool {
 unsafe impl Send for AllocatorPool {}
 unsafe impl Sync for AllocatorPool {}
 
-impl Allocator {
-    /// Allocates Vulkan device memory and creates `AllocatorPool` object.
-    pub fn create_pool(self: &Arc<Self>, create_info: &PoolCreateInfo) -> VkResult<AllocatorPool> {
+impl AllocatorPool {
+    pub fn new(allocator: Arc<Allocator>, create_info: &PoolCreateInfo) -> VkResult<Self> {
         unsafe {
             let mut ffi_pool: ffi::VmaPool = std::mem::zeroed();
-            ffi::vmaCreatePool(self.internal, &create_info.inner, &mut ffi_pool).result()?;
+            ffi::vmaCreatePool(allocator.internal, &create_info.inner, &mut ffi_pool).result()?;
+
             Ok(AllocatorPool {
                 pool: PoolHandle(ffi_pool),
-                allocator: self.clone(),
+                allocator,
             })
         }
     }
 
-    pub fn default_pool(self: &Arc<Self>) -> AllocatorPool {
-        AllocatorPool {
-            pool: PoolHandle(std::ptr::null_mut()),
-            allocator: self.clone(),
-        }
-    }
-}
-
-impl AllocatorPool {
     pub fn set_name(&self, name: Option<&CStr>) {
         if self.pool.0.is_null() {
             return;
@@ -50,6 +41,7 @@ impl AllocatorPool {
             );
         }
     }
+
     pub fn name(&self) -> Option<&CStr> {
         if self.pool.0.is_null() {
             return None;
@@ -63,6 +55,7 @@ impl AllocatorPool {
             Some(CStr::from_ptr(ptr))
         }
     }
+
     /// Retrieves statistics of existing `AllocatorPool` object.
     pub fn get_statistics(&self) -> VkResult<ffi::VmaStatistics> {
         unsafe {
@@ -96,9 +89,12 @@ impl AllocatorPool {
     pub fn check_corruption(&self) -> VkResult<()> {
         unsafe { ffi::vmaCheckPoolCorruption(self.allocator.internal, self.pool.0).result() }
     }
+}
 
-    /// Calls `vmaDestroyPool` on `self`.
-    pub unsafe fn destroy_pool(&mut self) {
-        ffi::vmaDestroyPool(self.allocator.internal, self.pool.0);
+impl Drop for AllocatorPool {
+    fn drop(&mut self) {
+        unsafe {
+            ffi::vmaDestroyPool(self.allocator.internal, self.pool.0);
+        }
     }
 }

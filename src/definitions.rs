@@ -484,7 +484,7 @@ impl<'a> PoolCreateInfo<'a> {
         self
     }
 
-    pub fn flags(mut self, flags: &AllocatorPoolCreateFlags) -> Self {
+    pub fn flags(mut self, flags: AllocatorPoolCreateFlags) -> Self {
         self.inner.flags = flags.bits;
         self
     }
@@ -517,6 +517,38 @@ impl<'a> PoolCreateInfo<'a> {
     pub fn memory_allocate(mut self, next: &'a mut ash::vk::MemoryAllocateInfo) -> Self {
         self.inner.pMemoryAllocateNext = next as *mut ash::vk::MemoryAllocateInfo as *mut _;
         self
+    }
+
+    // Getters
+
+    pub fn get_memory_type_index(&self) -> u32 {
+        self.inner.memoryTypeIndex
+    }
+
+    pub fn get_flags(&self) -> AllocatorPoolCreateFlags {
+        AllocatorPoolCreateFlags::from_bits(self.inner.flags).expect(
+            "allocator pool create flags should only contain bits from `AllocatorPoolCreateFlags`!",
+        )
+    }
+
+    pub fn get_block_size(&self) -> u64 {
+        self.inner.blockSize
+    }
+
+    pub fn get_min_block_count(&self) -> usize {
+        self.inner.minBlockCount
+    }
+
+    pub fn get_max_block_count(&self) -> usize {
+        self.inner.maxBlockCount
+    }
+
+    pub fn get_priority(&self) -> f32 {
+        self.inner.priority
+    }
+
+    pub fn get_min_allocation_alignment(&self) -> u64 {
+        self.inner.minAllocationAlignment
     }
 }
 

@@ -11,6 +11,7 @@ use ash::{prelude::VkResult, vk};
 pub trait Alloc {
     fn allocator(&self) -> &Allocator;
     fn pool(&self) -> PoolHandle;
+
     /// Helps to find memory type index, given memory type bits and allocation info.
     ///
     /// This algorithm tries to find a memory type that:
@@ -245,6 +246,7 @@ pub trait Alloc {
 
         Ok((buffer, Allocation(allocation)))
     }
+
     /// brief Creates a buffer with additional minimum alignment.
     ///
     /// Similar to vmaCreateBuffer() but provides additional parameter `minAlignment` which allows to specify custom,
@@ -273,6 +275,7 @@ pub trait Alloc {
 
         Ok((buffer, Allocation(allocation)))
     }
+
     /// This function automatically creates an image, allocates appropriate memory
     /// for it, and binds the image with the memory.
     ///
@@ -322,6 +325,7 @@ impl Alloc for AllocatorPool {
         self.pool
     }
 }
+
 impl Alloc for Allocator {
     fn allocator(&self) -> &Allocator {
         self
