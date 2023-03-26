@@ -216,6 +216,7 @@ bitflags! {
 
 bitflags! {
     /// Flags for configuring `Allocation` construction.
+    #[derive(Clone)]
     pub struct AllocationCreateFlags: u32 {
         /// Set this flag if the allocation should have its own memory block.
         ///
@@ -413,7 +414,7 @@ impl<'a> AllocatorCreateInfo<'a> {
     }
 
     pub fn flags(mut self, flags: AllocatorCreateFlags) -> Self {
-        self.inner.flags = flags.bits;
+        self.inner.flags = flags.bits();
         self
     }
 
@@ -485,7 +486,7 @@ impl<'a> PoolCreateInfo<'a> {
     }
 
     pub fn flags(mut self, flags: AllocatorPoolCreateFlags) -> Self {
-        self.inner.flags = flags.bits;
+        self.inner.flags = flags.bits();
         self
     }
 
