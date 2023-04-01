@@ -38,7 +38,7 @@ fn main() {
     build.define("VMA_RECORDING_ENABLED", "1");
 
     // Add the files we build
-    build.file("wrapper.cpp");
+    build.file("src/wrapper.cpp");
 
     let target = env::var("TARGET").unwrap();
     if target.contains("darwin") {

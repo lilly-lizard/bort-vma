@@ -109,6 +109,7 @@ pub enum MemoryUsage {
 
 bitflags! {
     /// Flags for configuring `Allocator` construction.
+    #[derive(Clone, Copy)]
     pub struct AllocatorCreateFlags: u32 {
         /// No allocator configuration other than defaults.
         const NONE = 0;
@@ -216,7 +217,7 @@ bitflags! {
 
 bitflags! {
     /// Flags for configuring `Allocation` construction.
-    #[derive(Clone)]
+    #[derive(Clone, Copy)]
     pub struct AllocationCreateFlags: u32 {
         /// Set this flag if the allocation should have its own memory block.
         ///
@@ -337,6 +338,7 @@ bitflags! {
 
 bitflags! {
     /// Flags for configuring `AllocatorPool` construction.
+    #[derive(Clone, Copy)]
     pub struct AllocatorPoolCreateFlags: u32 {
         /// Use this flag if you always allocate only buffers and linear images or only optimal images
         /// out of this pool and so buffer-image granularity can be ignored.
