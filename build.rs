@@ -36,7 +36,7 @@ fn main() {
     #[cfg(feature = "vulkan-1-0")]
     build.define("VMA_VULKAN_VERSION", "1000000");
 
-    #[cfg(feature = "recording")]
+    #[cfg(feature = "recording-enabled")]
     build.define("VMA_RECORDING_ENABLED", "1");
 
     #[cfg(feature = "debug-always-dedicated-memory")]

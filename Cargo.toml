@@ -61,7 +61,7 @@ vulkan-1-1=[]
 # defines VMA_VULKAN_VERSION=1000000
 vulkan-1-0=[]
 # Enable VMA memory recording for debugging (equivilent to VMA_RECORDING_ENABLED cmake option).
-recording=[]
+recording-enabled=[]
 # Every allocation will have its own memory block (equivilent to VMA_DEBUG_ALWAYS_DEDICATED_MEMORY cmake option).
 debug-always-dedicated-memory=[]
 # Automatically fill new allocations and destroyed allocations with some bit pattern (equivilent to VMA_DEBUG_INITIALIZE_ALLOCATIONS cmake option).
