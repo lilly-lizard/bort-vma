@@ -25,17 +25,31 @@ fn main() {
     // cause linker errors.
     build.define("VMA_DYNAMIC_VULKAN_FUNCTIONS", "0");
 
-    // TODO: Add some configuration options under crate features
-    //#define VMA_HEAVY_ASSERT(expr) assert(expr)
-    //#define VMA_USE_STL_CONTAINERS 1
-    //#define VMA_DEDICATED_ALLOCATION 0
-    //#define VMA_DEBUG_MARGIN 16
-    //#define VMA_DEBUG_DETECT_CORRUPTION 1
-    //#define VMA_DEBUG_INITIALIZE_ALLOCATIONS 1
-    //#define VMA_DEBUG_MIN_BUFFER_IMAGE_GRANULARITY 256
+    // feature flags
+
+    #[cfg(feature = "vulkan-1-3")]
+    build.define("VMA_VULKAN_VERSION", "1003000");
+    #[cfg(feature = "vulkan-1-2")]
+    build.define("VMA_VULKAN_VERSION", "1002000");
+    #[cfg(feature = "vulkan-1-1")]
+    build.define("VMA_VULKAN_VERSION", "1001000");
+    #[cfg(feature = "vulkan-1-0")]
+    build.define("VMA_VULKAN_VERSION", "1000000");
 
     #[cfg(feature = "recording")]
     build.define("VMA_RECORDING_ENABLED", "1");
+
+    #[cfg(feature = "debug-always-dedicated-memory")]
+    build.define("VMA_DEBUG_ALWAYS_DEDICATED_MEMORY", "1");
+
+    #[cfg(feature = "debug-initialize-allocations")]
+    build.define("VMA_DEBUG_INITIALIZE_ALLOCATIONS", "1");
+
+    #[cfg(feature = "debug-global-mutex")]
+    build.define("VMA_DEBUG_GLOBAL_MUTEX", "1");
+
+    #[cfg(feature = "debug-dont-exceed-max-memory-allocation-count")]
+    build.define("VMA_DEBUG_DONT_EXCEED_MAX_MEMORY_ALLOCATION_COUNT", "1");
 
     // Add the files we build
     build.file("src/wrapper.cpp");
@@ -50,7 +64,6 @@ fn main() {
             .flag("-Wno-unused-private-field")
             .flag("-Wno-reorder")
             .flag("-Wno-nullability-completeness")
-            .flag("-DVMA_VULKAN_VERSION=1002000") // because moltenvk supports vulkan 1.2
             .cpp_link_stdlib("c++")
             .cpp_set_stdlib("c++")
             .cpp(true);
@@ -62,7 +75,6 @@ fn main() {
             .flag("-Wno-unused-parameter")
             .flag("-Wno-unused-private-field")
             .flag("-Wno-reorder")
-            .flag("-DVMA_VULKAN_VERSION=1002000") // because moltenvk supports vulkan 1.2
             .cpp_link_stdlib("c++")
             .cpp_set_stdlib("c++")
             .cpp(true);
