@@ -50,6 +50,7 @@ fn main() {
             .flag("-Wno-unused-private-field")
             .flag("-Wno-reorder")
             .flag("-Wno-nullability-completeness")
+            .flag("-DVMA_VULKAN_VERSION=1002000") // because moltenvk supports vulkan 1.2
             .cpp_link_stdlib("c++")
             .cpp_set_stdlib("c++")
             .cpp(true);
@@ -61,6 +62,7 @@ fn main() {
             .flag("-Wno-unused-parameter")
             .flag("-Wno-unused-private-field")
             .flag("-Wno-reorder")
+            .flag("-DVMA_VULKAN_VERSION=1002000") // because moltenvk supports vulkan 1.2
             .cpp_link_stdlib("c++")
             .cpp_set_stdlib("c++")
             .cpp(true);
