@@ -1,4 +1,8 @@
-vk-mem
+# ARCHIVED
+
+This repo has been moved to the [bort](https://github.com/lilly-lizard/bort/tree/main/bort-vma) repository.
+
+bort-vma
 ========
 
 [![vk-mem on travis-ci.com](https://travis-ci.com/gwihlidal/vk-mem-rs.svg?branch=master)](https://travis-ci.com/gwihlidal/vk-mem-rs)
